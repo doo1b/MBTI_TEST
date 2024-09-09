@@ -1,12 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Layout = ({ children }) => {
-  const navigate = useNavigate();
-
   return (
     <div>
-      <header className="flex items-center justify-between w-screen h-20 px-10 bg-myRed">
+      <header className="flex items-center justify-between w-screen h-20 px-10 bg-myPink1">
         <Link to="/">
           <span>HOME</span>
         </Link>
@@ -15,7 +13,7 @@ const Layout = ({ children }) => {
         </div>
       </header>
       <main
-        className="container mx-auto"
+        className="flex flex-col items-center pt-24 mx-auto"
         style={{ height: "calc(100vh - 5rem)" }}
       >
         {children}
