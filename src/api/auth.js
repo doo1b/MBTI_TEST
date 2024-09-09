@@ -4,11 +4,22 @@ const API_URL = "https://moneyfulpublicpolicy.co.kr";
 
 export const register = async (userData) => {
   const response = await axios.post(`${API_URL}/register`, userData);
-  console.log(response);
   return response.data;
 };
 
-export const login = async (userData) => {};
+export const login = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/login`, userData);
+    localStorage.setItem("accessToken", response.data.accessToken);
+  } catch (error) {
+    alert(error.response.data.message);
+    console.log(error);
+  }
+};
+
+export const logout = () => {
+  localStorage.removeItem("accessToken");
+};
 
 export const getUserProfile = async (token) => {};
 

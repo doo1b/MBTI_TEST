@@ -3,7 +3,7 @@ import { create } from "zustand";
 const useUserInfoStore = create((set) => ({
   userInfo: {
     id: "",
-    passward: "",
+    password: "",
     nickname: "",
   },
   handleInputChange: (field, value) =>

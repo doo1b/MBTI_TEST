@@ -1,7 +1,7 @@
-import AuthForm from "../components/AuthForm";
+import Form from "../components/Form";
 
-const Login = () => {
-  return <AuthForm mode="login" />;
+const Login = ({ user, setUser }) => {
+  return <Form mode="login" user={user} setUser={setUser} />;
 };
 
 export default Login;

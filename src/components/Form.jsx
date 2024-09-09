@@ -1,9 +1,9 @@
 import React from "react";
 import useUserInfoStore from "../zustand/UserInfoStore";
-import { register } from "../api/auth";
+import { login, register } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 
-const AuthForm = ({ mode, onSubmit }) => {
+const Form = ({ mode, setUser }) => {
   const userInfo = useUserInfoStore((state) => state.userInfo);
   const handleInputChange = useUserInfoStore(
     (state) => state.handleInputChange
@@ -18,13 +18,20 @@ const AuthForm = ({ mode, onSubmit }) => {
 
   const titleStyle = "mb-5 text-xl font-logy500";
 
+  const formStyle = "flex flex-col w-96";
+
+  console.log(userInfo);
+
   if (mode === "signup")
     return (
       <>
         <p className={titleStyle}>회원가입</p>
         <form
-          className="flex flex-col w-96"
-          onSubmit={() => register(userInfo)}
+          className={formStyle}
+          onSubmit={(e) => {
+            e.preventDefault();
+            register(userInfo);
+          }}
         >
           <input
             type="text"
@@ -34,9 +41,9 @@ const AuthForm = ({ mode, onSubmit }) => {
             placeholder="아이디를 입력하세요"
           ></input>
           <input
-            type="passward"
-            value={userInfo.passward || ""}
-            onChange={(e) => handleInputChange("passward", e.target.value)}
+            type="password"
+            value={userInfo.password || ""}
+            onChange={(e) => handleInputChange("password", e.target.value)}
             className={inputStyle}
             placeholder="비밀번호를 입력하세요"
           ></input>
@@ -57,7 +64,14 @@ const AuthForm = ({ mode, onSubmit }) => {
     return (
       <>
         <p className={titleStyle}>로그인</p>
-        <form className="flex flex-col w-96">
+        <form
+          className={formStyle}
+          onSubmit={(e) => {
+            e.preventDefault();
+            login(userInfo);
+            setUser(true);
+          }}
+        >
           <input
             type="text"
             value={userInfo.id || ""}
@@ -66,9 +80,9 @@ const AuthForm = ({ mode, onSubmit }) => {
             placeholder="아이디를 입력하세요"
           ></input>
           <input
-            type="passward"
-            value={userInfo.passward || ""}
-            onChange={(e) => handleInputChange("passward", e.target.value)}
+            type="password"
+            value={userInfo.password || ""}
+            onChange={(e) => handleInputChange("password", e.target.value)}
             className={inputStyle}
             placeholder="비밀번호를 입력하세요"
           ></input>
@@ -85,6 +99,25 @@ const AuthForm = ({ mode, onSubmit }) => {
         </form>
       </>
     );
+  else if (mode === "profile") {
+    return (
+      <>
+        <p className={titleStyle}>프로필 수정</p>
+        <form className={formStyle}>
+          <input
+            type="text"
+            value={userInfo.nickname || ""}
+            onChange={(e) => handleInputChange("nickname", e.target.value)}
+            className={inputStyle}
+            placeholder="변경할 닉네임을 입력하세요"
+          ></input>
+          <button type="button" className={buttonStyle}>
+            변경하기
+          </button>
+        </form>
+      </>
+    );
+  }
 };
 
-export default AuthForm;
+export default Form;

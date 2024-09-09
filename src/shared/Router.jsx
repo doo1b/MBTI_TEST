@@ -6,14 +6,17 @@ import { Profile } from "../pages/Profile";
 import TestPage from "../pages/TestPage";
 import TestResultPage from "../pages/TestResultPage";
 import Layout from "../components/Layout";
+import { useState } from "react";
 
 const Router = () => {
+  const [user, setUser] = useState(false);
+
   return (
     <BrowserRouter>
-      <Layout>
+      <Layout user={user} setUser={setUser}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/test" element={<TestPage />} />

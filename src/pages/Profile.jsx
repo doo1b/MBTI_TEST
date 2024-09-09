@@ -1,3 +1,5 @@
+import Form from "../components/Form";
+
 export const Profile = () => {
-  return <div>Profile</div>;
+  return <Form mode="profile"></Form>;
 };
