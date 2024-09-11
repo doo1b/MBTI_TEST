@@ -25,13 +25,13 @@ const Form = ({ mode }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // try {
-    await login(userInfo);
-    setIsLogin(true);
-    navigate("/");
-    // } catch (error) {
-    //   alert(error);
-    // }
+    try {
+      await login(userInfo);
+      setIsLogin(true);
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   if (mode === "signup")
