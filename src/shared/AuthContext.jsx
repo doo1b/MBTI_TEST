@@ -3,7 +3,7 @@ import { getUserProfile, logout } from "../api/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-export const AuthCotext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ export const AuthProvider = ({ children }) => {
   }, [token, isError]);
 
   return (
-    <AuthCotext.Provider value={{ loginUser, isLogin, setIsLogin }}>
+    <AuthContext.Provider value={{ loginUser, isLogin, setIsLogin }}>
       {children}
-    </AuthCotext.Provider>
+    </AuthContext.Provider>
   );
 };

@@ -5,10 +5,10 @@ import {
   deleteTestResult,
   updateTestResultVisibility,
 } from "../api/testResult";
-import { AuthCotext } from "../shared/AuthContext";
+import { AuthContext } from "../shared/AuthContext";
 
 const ResultCard = ({ result }) => {
-  const { loginUser } = useContext(AuthCotext);
+  const { loginUser } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
   const { mutate: changeVisibility } = useMutation({

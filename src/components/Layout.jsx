@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../api/auth";
-import { AuthCotext } from "../shared/AuthContext";
+import { AuthContext } from "../shared/AuthContext";
 
 const Layout = ({ children }) => {
-  const { setIsLogin, isLogin } = useContext(AuthCotext);
+  const { setIsLogin, isLogin } = useContext(AuthContext);
 
   return (
     <div>

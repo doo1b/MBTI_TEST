@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { getTestResults } from "../api/testResult";
 import ResultCard from "./ResultCard";
-import { AuthCotext } from "../shared/AuthContext";
+import { AuthContext } from "../shared/AuthContext";
 
 const ResultList = () => {
-  const { loginUser } = useContext(AuthCotext);
+  const { loginUser } = useContext(AuthContext);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ["resuit"],
     queryFn: getTestResults,
   });

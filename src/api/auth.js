@@ -3,8 +3,12 @@ import axios from "axios";
 const API_URL = "https://moneyfulpublicpolicy.co.kr";
 
 export const register = async (userData) => {
-  const response = await axios.post(`${API_URL}/register`, userData);
-  return response.data;
+  try {
+    const response = await axios.post(`${API_URL}/register`, userData);
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
 };
 
 export const login = async (userData) => {
@@ -16,7 +20,7 @@ export const login = async (userData) => {
     localStorage.setItem("accessToken", response.data.accessToken);
     return response;
   } catch (error) {
-    throw Error(error.response.data.message);
+    throw error.response.data.message;
   }
 };
 
@@ -41,6 +45,6 @@ export const updateProfile = async (nickname, token) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    throw Error(error);
   }
 };

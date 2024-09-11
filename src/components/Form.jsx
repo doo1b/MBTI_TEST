@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, register, updateProfile } from "../api/auth";
 import useUserInfoStore from "../zustand/UserInfoStore";
-import { AuthCotext } from "../shared/AuthContext";
+import { AuthContext } from "../shared/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Form = ({ mode }) => {
   const queryClient = useQueryClient();
-  const { setIsLogin, loginUser } = useContext(AuthCotext);
+  const { setIsLogin, loginUser } = useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
@@ -34,17 +34,22 @@ const Form = ({ mode }) => {
     }
   };
 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      await register(userInfo);
+      alert("회원가입 완료!");
+      navigate("/login");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   if (mode === "signup")
     return (
       <>
         <p className="formTitle">회원가입</p>
-        <form
-          className="formBox"
-          onSubmit={(e) => {
-            e.preventDefault();
-            register(userInfo);
-          }}
-        >
+        <form className="formBox" onSubmit={handleSignup}>
           <input
             type="text"
             value={userInfo.id || ""}

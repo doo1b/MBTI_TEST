@@ -68,7 +68,8 @@
 
 *,
 body,
-html header {
+html header,
+.Toastify__toast {
   font-family: "logy-400";
 }
 

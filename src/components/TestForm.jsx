@@ -3,11 +3,11 @@ import { questions } from "../data/questions";
 import { useNavigate } from "react-router-dom";
 import calculateMBTI from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResult";
-import { AuthCotext } from "../shared/AuthContext";
+import { AuthContext } from "../shared/AuthContext";
 
 const TestForm = () => {
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
-  const { loginUser } = useContext(AuthCotext);
+  const { loginUser } = useContext(AuthContext);
 
   const handleChange = (index, answer) => {
     const newAnswers = [...answers];
