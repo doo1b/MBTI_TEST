@@ -1,5 +1,7 @@
 import Form from "../components/Form";
 
-export const Profile = () => {
+const Profile = () => {
   return <Form mode="profile"></Form>;
 };
+
+export default Profile;

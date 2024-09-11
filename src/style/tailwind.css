@@ -65,3 +65,27 @@
   font-weight: 900;
   font-style: normal;
 }
+
+*,
+body,
+html header {
+  font-family: "logy-400";
+}
+
+@layer components {
+  .formInput {
+    @apply p-4 my-2 bg-myPink3 rounded-xl focus:outline-none placeholder:text-zinc-950 font-logy300;
+  }
+
+  .btn {
+    @apply p-4 my-2 bg-myPink1 rounded-xl hover:bg-myBeige font-logy600;
+  }
+
+  .formTitle {
+    @apply mb-5 text-xl font-logy500;
+  }
+
+  .formBox {
+    @apply flex flex-col w-96;
+  }
+}

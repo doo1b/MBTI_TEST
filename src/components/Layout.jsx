@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../api/auth";
+import { AuthCotext } from "../shared/AuthContext";
 
-const Layout = ({ children, user, setUser }) => {
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setUser(true);
-    }
-  }, []);
+const Layout = ({ children }) => {
+  const { setIsLogin, isLogin } = useContext(AuthCotext);
 
   return (
     <div>
@@ -17,28 +14,28 @@ const Layout = ({ children, user, setUser }) => {
         </Link>
 
         <div>
-          {user ? (
-            <div>
-              <Link to="/profile">프로필</Link>{" "}
-              <Link to="/test">테스트하러가기</Link>{" "}
-              <span
-                onClick={() => {
-                  logout();
-                  setUser(false);
-                }}
-              >
-                로그아웃
-              </span>{" "}
-            </div>
-          ) : (
-            <Link to="/login"> 로그인</Link>
-          )}
+          <div className="flex flex-row-reverse justify-between w-60">
+            {isLogin ? (
+              <>
+                <span
+                  onClick={() => {
+                    logout();
+                    setIsLogin(false);
+                  }}
+                >
+                  로그아웃
+                </span>
+                <Link to="/results">결과보기</Link>
+                <Link to="/test">테스트</Link>
+                <Link to="/profile">프로필</Link>
+              </>
+            ) : (
+              <Link to="/login"> 로그인</Link>
+            )}
+          </div>
         </div>
       </header>
-      <main
-        className="flex flex-col items-center pt-24 mx-auto"
-        style={{ height: "calc(100vh - 5rem)" }}
-      >
+      <main className="flex flex-col items-center pt-24 mx-auto mb-24">
         {children}
       </main>
     </div>

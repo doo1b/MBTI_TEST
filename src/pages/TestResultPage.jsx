@@ -1,5 +1,7 @@
+import ResultList from "../components/ResultList";
+
 const TestResultPage = () => {
-  return <div>TestResultPage</div>;
+  return <ResultList />;
 };
 
 export default TestResultPage;

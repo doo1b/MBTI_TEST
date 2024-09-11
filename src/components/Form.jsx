@@ -1,33 +1,45 @@
-import React from "react";
-import useUserInfoStore from "../zustand/UserInfoStore";
-import { login, register } from "../api/auth";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { login, register, updateProfile } from "../api/auth";
+import useUserInfoStore from "../zustand/UserInfoStore";
+import { AuthCotext } from "../shared/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const Form = ({ mode, setUser }) => {
+const Form = ({ mode }) => {
+  const queryClient = useQueryClient();
+  const { setIsLogin, loginUser } = useContext(AuthCotext);
+  const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
+
   const userInfo = useUserInfoStore((state) => state.userInfo);
   const handleInputChange = useUserInfoStore(
     (state) => state.handleInputChange
   );
-  const navigate = useNavigate();
 
-  const inputStyle =
-    "p-4 my-2 bg-myPink3 rounded-xl focus:outline-none placeholder:text-zinc-950 font-logy300";
+  const { mutate: changeNickname } = useMutation({
+    mutationFn: ({ nickname, token }) => updateProfile({ nickname }, token),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userData"]);
+    },
+  });
 
-  const buttonStyle =
-    "p-4 my-2 bg-myPink1 rounded-xl hover:bg-myBeige font-logy600";
-
-  const titleStyle = "mb-5 text-xl font-logy500";
-
-  const formStyle = "flex flex-col w-96";
-
-  console.log(userInfo);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // try {
+    await login(userInfo);
+    setIsLogin(true);
+    navigate("/");
+    // } catch (error) {
+    //   alert(error);
+    // }
+  };
 
   if (mode === "signup")
     return (
       <>
-        <p className={titleStyle}>회원가입</p>
+        <p className="formTitle">회원가입</p>
         <form
-          className={formStyle}
+          className="formBox"
           onSubmit={(e) => {
             e.preventDefault();
             register(userInfo);
@@ -37,24 +49,24 @@ const Form = ({ mode, setUser }) => {
             type="text"
             value={userInfo.id || ""}
             onChange={(e) => handleInputChange("id", e.target.value)}
-            className={inputStyle}
+            className="formInput"
             placeholder="아이디를 입력하세요"
           ></input>
           <input
             type="password"
             value={userInfo.password || ""}
             onChange={(e) => handleInputChange("password", e.target.value)}
-            className={inputStyle}
+            className="formInput"
             placeholder="비밀번호를 입력하세요"
           ></input>
           <input
             type="text"
             value={userInfo.nickname || ""}
-            className={inputStyle}
+            className="formInput"
             onChange={(e) => handleInputChange("nickname", e.target.value)}
             placeholder="닉네임을 입력하세요"
           ></input>
-          <button type="submit" className={buttonStyle}>
+          <button type="submit" className="btn">
             회원가입
           </button>
         </form>
@@ -63,30 +75,23 @@ const Form = ({ mode, setUser }) => {
   else if (mode === "login")
     return (
       <>
-        <p className={titleStyle}>로그인</p>
-        <form
-          className={formStyle}
-          onSubmit={(e) => {
-            e.preventDefault();
-            login(userInfo);
-            setUser(true);
-          }}
-        >
+        <p className="formTitle">로그인</p>
+        <form className="formBox" onSubmit={handleLogin}>
           <input
             type="text"
             value={userInfo.id || ""}
             onChange={(e) => handleInputChange("id", e.target.value)}
-            className={inputStyle}
+            className="formInput"
             placeholder="아이디를 입력하세요"
           ></input>
           <input
             type="password"
             value={userInfo.password || ""}
             onChange={(e) => handleInputChange("password", e.target.value)}
-            className={inputStyle}
+            className="formInput"
             placeholder="비밀번호를 입력하세요"
           ></input>
-          <button type="submit" className={buttonStyle}>
+          <button type="submit" className="btn">
             로그인
           </button>
           <button
@@ -102,16 +107,23 @@ const Form = ({ mode, setUser }) => {
   else if (mode === "profile") {
     return (
       <>
-        <p className={titleStyle}>프로필 수정</p>
-        <form className={formStyle}>
+        <p className="formTitle">내 프로필 수정</p>
+        <p className="formTitle"> 현재 닉네임 : {loginUser?.nickname}</p>
+        <form
+          className="formBox"
+          onSubmit={(e) => {
+            e.preventDefault();
+            changeNickname({ nickname: userInfo.nickname, token });
+          }}
+        >
           <input
             type="text"
             value={userInfo.nickname || ""}
             onChange={(e) => handleInputChange("nickname", e.target.value)}
-            className={inputStyle}
+            className="formInput"
             placeholder="변경할 닉네임을 입력하세요"
           ></input>
-          <button type="button" className={buttonStyle}>
+          <button type="submit" className="btn">
             변경하기
           </button>
         </form>
