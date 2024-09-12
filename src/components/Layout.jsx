@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </header>
-      <main className="flex flex-col items-center pt-24 mx-auto mb-24">
+      <main className="flex flex-col items-center pt-24 mx-auto mb-24 lg:w-2/3 xs:w-4/5">
         {children}
       </main>
     </div>

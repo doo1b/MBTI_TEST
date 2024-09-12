@@ -87,6 +87,6 @@ html header,
   }
 
   .formBox {
-    @apply flex flex-col w-96;
+    @apply flex flex-col lg:w-96 xs:w-2/3;
   }
 }

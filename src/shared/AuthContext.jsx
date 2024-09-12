@@ -13,7 +13,11 @@ export const AuthProvider = ({ children }) => {
   const token = localStorage.getItem("accessToken");
 
   // 2. 프로필 정보를 가져오기 위한 useQuery 설정
-  const { data: loginUser, isError } = useQuery({
+  const {
+    data: loginUser,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["userData"],
     queryFn: () => getUserProfile(token),
     enabled: !!token,
@@ -36,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }, [token, isError]);
 
   return (
-    <AuthContext.Provider value={{ loginUser, isLogin, setIsLogin }}>
+    <AuthContext.Provider value={{ loginUser, isLogin, setIsLogin, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
